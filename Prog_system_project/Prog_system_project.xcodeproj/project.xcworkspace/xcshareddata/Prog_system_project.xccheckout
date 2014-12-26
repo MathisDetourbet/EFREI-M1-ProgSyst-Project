@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>FDC5D3BC-EBC8-4E0A-AA66-A74F58D0567D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Prog_system_project</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>810DD268635B6B2268F77CBEE35A0FF04A6A7BD9</key>
+		<string>https://github.com/MathisDetourbet/EFREI-M1-ProgSyst-Project.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Prog_system_project/Prog_system_project.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>810DD268635B6B2268F77CBEE35A0FF04A6A7BD9</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/MathisDetourbet/EFREI-M1-ProgSyst-Project.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>810DD268635B6B2268F77CBEE35A0FF04A6A7BD9</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>810DD268635B6B2268F77CBEE35A0FF04A6A7BD9</string>
+			<key>IDESourceControlWCCName</key>
+			<string>EFREI-M1-ProgSyst-Project</string>
+		</dict>
+	</array>
+</dict>
+</plist>
