@@ -25,52 +25,24 @@ RAM::RAM(int space) {
     this->allocMemory = 0;
 }
 
-void RAM::displayRAM() {
-    // Affichage de la RAM dans la console à l'instant t
-    cout<< endl<< endl<< "* Affichage de la mémoire actuelle *"<< endl<< endl;
-    cout<< "-----------------------"<< endl;
-    
-    for (unsigned i = 0; i < this->_memory.size(); i++) {
-        cout<< "-----------------------\t"<< this->_memory[i]._addr<< endl;
-        displayZoneWith(this->_memory[i]._space, this->_memory[i]._addr, this->_memory[i]._state);
-    }
-    cout<< "-----------------------"<< endl;
-    cout<< "-----------------------"<< endl;
-}
-
-void RAM::displayZoneWith(int zoneSpace, int zoneAddr, bool zoneState) {
-    string state = zoneSpace ? "Free" : "Busy";
-    
-    for (unsigned i = 0; i <= (zoneSpace / 100); i++) {
-        if (i == ((int)((zoneSpace/100) / 2))) {
-            if (zoneSpace >= 1000 && zoneSpace < 10000) {
-                cout<< "|| \t"<< state<< " : "<< zoneSpace<< " Mo   ||"<< endl;
-            } else if (zoneSpace < 1000 && zoneSpace >= 100) {
-                cout<< "|| \t"<< state<< " : "<< zoneSpace<< " Mo    ||"<< endl;
-            } else if (zoneSpace < 100 && zoneSpace >= 10) {
-                cout<< "|| \t"<< state<< " : "<< zoneSpace<< " Mo     ||"<< endl;
-            }
-        }
-        else
-            cout<< "|| \t\t\t\t\t ||"<< endl;
-    }
-}
-
 bool RAM::allocFirstFit(int zoneSpace) {
     // Allocation de zone mémoire avec l'algorithme FIRST-FIT
     for (unsigned i = 0; i < this->_memory.size(); i++) {
         
         if ((this->_memory[i]._space >= zoneSpace) && (this->_memory[i]._state == 0)) {
             
-            // Allocation d'une nouvelle zone mémoire + insertion
-            MemoryZone * newZone = new MemoryZone(zoneSpace, this->_memory[i]._addr, 1);
-            this->_memory.insert(this->_memory.begin(), *newZone);
-            if (zoneSpace == this->_memory[i+1]._space) {
-                this->_memory.erase(this->_memory.cbegin() + i + 1);
-            } else {
-                this->_memory[i+1]._space -= zoneSpace;
-                this->_memory[i+1]._addr = zoneSpace + 1;
+            // Si la taille demandée est égale à celle disponible
+            if (this->_memory[i]._space == zoneSpace) {
+                this->_memory[i]._state = 1;
+                return true;
             }
+            // Sinon création d'une nouvelle zone mémoire
+            MemoryZone *newZone = new MemoryZone(zoneSpace, this->_memory[i]._addr, 1);
+            this->_memory[i]._space -= zoneSpace;
+            this->_memory[i]._addr += zoneSpace;
+            
+            // Insertion de la nouvelle zone mémoire
+            this->_memory.insert(this->_memory.begin() + i, *newZone);
             
             return true;
         }
@@ -95,15 +67,20 @@ bool RAM::allocBestFit(int zoneSpace) {
     return false;
 }
 
-int RAM::getIndexBestSpace(map<int, int> freeSpaces) {
+int RAM::getIndexBestSpace(map <int, int> freeSpaces) {
     int indexMax = -1;
+    int spaceMax = 0;
+    
     for (unsigned i = 0; i < freeSpaces.size(); i++) {
-        if (freeSpaces[i] > indexMax)
+        if (freeSpaces[i] > spaceMax) {
             indexMax = i;
+            spaceMax = freeSpaces[i];
+        }
+        
     }
-    if (indexMax >= 0) {
+    if (indexMax >= 0)
         return indexMax;
-    } else
+    else
         return -1;
 }
 
@@ -118,4 +95,35 @@ bool RAM::dealloc(int zoneSpace, int zoneAddr) {
     // Libération de mémoire
     
     return false;
+}
+
+void RAM::displayRAM() {
+    // Affichage de la RAM dans la console à l'instant t
+    cout<< endl<< endl<< "* Affichage de la mémoire actuelle *"<< endl<< endl;
+    cout<< "-----------------------"<< endl;
+    
+    for (unsigned i = 0; i < this->_memory.size(); i++) {
+        cout<< "||-------------------||\t"<< this->_memory[i]._addr<< endl;
+        displayZoneWith(this->_memory[i]._space, this->_memory[i]._addr, this->_memory[i]._state);
+    }
+    cout<< "||-------------------||"<< endl;
+    cout<< "-----------------------"<< endl;
+}
+
+void RAM::displayZoneWith(int zoneSpace, int zoneAddr, bool zoneState) {
+    string state = zoneState ? "Busy" : "Free";
+    
+    for (unsigned i = 0; i <= (zoneSpace / 100); i++) {
+        if (i == ((int)((zoneSpace/100) / 2))) {
+            if (zoneSpace >= 1000 && zoneSpace < 10000) {
+                cout<< "|| \t"<< state<< " : "<< zoneSpace<< " Mo   ||"<< endl;
+            } else if (zoneSpace < 1000 && zoneSpace >= 100) {
+                cout<< "|| \t"<< state<< " : "<< zoneSpace<< " Mo    ||"<< endl;
+            } else if (zoneSpace < 100 && zoneSpace >= 10) {
+                cout<< "|| \t"<< state<< " : "<< zoneSpace<< " Mo     ||"<< endl;
+            }
+        }
+        else
+            cout<< "|| \t\t\t\t\t ||"<< endl;
+    }
 }

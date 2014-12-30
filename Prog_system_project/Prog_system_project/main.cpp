@@ -77,7 +77,7 @@ int main(int argc, const char * argv[]) {
                             cout<< space<< " Mo viennent d'être alloués à l'adresse : "<< endl;
                             memory->displayRAM();
                         } else
-                            cout<< "Erreur d'allocation mémoire"<< endl;
+                            cout<< "### Erreur d'allocation mémoire : espace libre insuffisant ###"<< endl<< endl;
                         break;
                         
                     case 2:
@@ -86,7 +86,7 @@ int main(int argc, const char * argv[]) {
                             cout<< space<< " Mo viennent d'être alloués à l'adresse : "<< endl;
                             memory->displayRAM();
                         } else
-                            cout<< "Erreur d'allocation mémoire"<< endl;
+                            cout<< "### Erreur d'allocation mémoire : espace libre insuffisant ###"<< endl;
                         break;
                         
                     default:
@@ -95,7 +95,7 @@ int main(int argc, const char * argv[]) {
                             cout<< space<< " Mo viennent d'être alloués à l'adresse : "<< endl;
                             memory->displayRAM();
                         } else
-                            cout<< "Erreur d'allocation mémoire"<< endl;
+                            cout<< "### Erreur d'allocation mémoire : espace libre insuffisant ###"<< endl;
                         break;
                 }
                 break;
