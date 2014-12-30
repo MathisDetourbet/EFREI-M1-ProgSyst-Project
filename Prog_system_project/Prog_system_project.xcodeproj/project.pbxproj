@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		67D6A9691A4DD36B00AFC39C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67D6A9681A4DD36B00AFC39C /* main.cpp */; };
 		67D6A9711A4DD8DD00AFC39C /* RAM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67D6A96F1A4DD8DD00AFC39C /* RAM.cpp */; };
-		67D6A9771A4DDA9000AFC39C /* MemorySpace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67D6A9751A4DDA9000AFC39C /* MemorySpace.cpp */; };
+		67D6A97A1A51A9E000AFC39C /* MemoryZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67D6A9781A51A9E000AFC39C /* MemoryZone.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,8 +29,8 @@
 		67D6A9681A4DD36B00AFC39C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		67D6A96F1A4DD8DD00AFC39C /* RAM.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RAM.cpp; sourceTree = "<group>"; };
 		67D6A9701A4DD8DD00AFC39C /* RAM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAM.h; sourceTree = "<group>"; };
-		67D6A9751A4DDA9000AFC39C /* MemorySpace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MemorySpace.cpp; sourceTree = "<group>"; };
-		67D6A9761A4DDA9000AFC39C /* MemorySpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemorySpace.h; sourceTree = "<group>"; };
+		67D6A9781A51A9E000AFC39C /* MemoryZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MemoryZone.cpp; sourceTree = "<group>"; };
+		67D6A9791A51A9E000AFC39C /* MemoryZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryZone.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,8 +66,8 @@
 				67D6A9681A4DD36B00AFC39C /* main.cpp */,
 				67D6A96F1A4DD8DD00AFC39C /* RAM.cpp */,
 				67D6A9701A4DD8DD00AFC39C /* RAM.h */,
-				67D6A9751A4DDA9000AFC39C /* MemorySpace.cpp */,
-				67D6A9761A4DDA9000AFC39C /* MemorySpace.h */,
+				67D6A9781A51A9E000AFC39C /* MemoryZone.cpp */,
+				67D6A9791A51A9E000AFC39C /* MemoryZone.h */,
 			);
 			path = Prog_system_project;
 			sourceTree = "<group>";
@@ -128,9 +128,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67D6A97A1A51A9E000AFC39C /* MemoryZone.cpp in Sources */,
 				67D6A9711A4DD8DD00AFC39C /* RAM.cpp in Sources */,
 				67D6A9691A4DD36B00AFC39C /* main.cpp in Sources */,
-				67D6A9771A4DDA9000AFC39C /* MemorySpace.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

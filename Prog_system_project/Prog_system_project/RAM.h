@@ -10,18 +10,26 @@
 #define __Prog_system_project__RAM__
 
 #include <stdio.h>
-#include "MemorySpace.h"
+#include <vector>
+#include "MemoryZone.h"
+#include <map>
 
 class RAM {
 private:
-    MemorySpace *_memoire;
+    std::vector <MemoryZone> _memory;
+    int freeMemory, allocMemory;
+    
+    void displayZoneWith(int zoneSpace, int zoneAddr, bool blockState);
+    int getIndexBestSpace(std::map<int, int> freeSpaces);
     
 public:
     RAM();
     RAM(int space);
     void displayRAM();
-    void alloc(int space);
-    void dealloc(int space);
+    bool allocFirstFit(int zoneSpace);
+    bool allocBestFit(int zoneSpace);
+    bool allocWorstFit(int zoneSpace);
+    bool dealloc(int zoneSpace, int zoneAddr);
 };
 
 #endif /* defined(__Prog_system_project__RAM__) */
