@@ -25,8 +25,8 @@ RAM::RAM(int space) {
     this->allocMemory = 0;
 }
 
+// ** FIRST-FIT ALGORITHM **
 bool RAM::allocFirstFit(int zoneSpace) {
-    // Allocation de zone mémoire avec l'algorithme FIRST-FIT
     for (unsigned i = 0; i < this->_memory.size(); i++) {
         
         if ((this->_memory[i]._space >= zoneSpace) && (this->_memory[i]._state == 0)) {
@@ -50,16 +50,59 @@ bool RAM::allocFirstFit(int zoneSpace) {
     return false;
 }
 
+// ** BEST-FIT ALGORITHM **
 bool RAM::allocBestFit(int zoneSpace) {
-    // Allocation de mémoire avec l'algorithme BEST-FIT
     map <int, int> freeSpaces;
     
     for (unsigned i = 0; i < this->_memory.size(); i++) {
-        if (this->_memory[i]._state == 0)
+        if (this->_memory[i]._state == 0 && this->_memory[i]._space >= zoneSpace)
             freeSpaces[i] = this->_memory[i]._space;
     }
-    int result = this->getIndexBestSpace(freeSpaces);
-    if (result >= 0) {
+    int bestIndex = this->getIndexBestSpace(freeSpaces, zoneSpace);
+    if (bestIndex >= 0) {
+        MemoryZone *newZone = new MemoryZone(zoneSpace, this->_memory[bestIndex]._addr, 1);
+        this->_memory[bestIndex]._space -= zoneSpace;
+        this->_memory[bestIndex]._addr += zoneSpace;
+        
+        // Insertion de la nouvelle zone mémoire
+        this->_memory.insert(this->_memory.begin() + bestIndex, *newZone);
+
+        return true;
+    }
+    
+    return false;
+}
+
+// Retourne l'index de la zone libre qui possède la capacité la plus proche de celle demandée
+int RAM::getIndexBestSpace(map<int, int> freeSpaces, int spaceNedded) {
+    int bestdX = INT16_MAX;
+    int bestIndex = -1;
+    
+    for (unsigned i = 0; i < freeSpaces.size(); i++) {
+        if ((freeSpaces[i] - spaceNedded) < bestdX) {
+            bestdX = freeSpaces[i] - spaceNedded;
+            bestIndex = i;
+        }
+    }
+    return bestIndex;
+}
+
+// ** WORST-FIT ALGORITHM **
+bool RAM::allocWorstFit(int zoneSpace) {
+    map<int, int> freeSpaces;
+    
+    for (unsigned i = 0; i < this->_memory.size(); i++) {
+        if (this->_memory[i]._state == 0 && this->_memory[i]._space >= zoneSpace)
+            freeSpaces[i] = this->_memory[i]._space;
+    }
+    int worstIndex = this->getIndexWorstSpace(freeSpaces, zoneSpace);
+    if (worstIndex >= 0) {
+        MemoryZone *newZone = new MemoryZone(zoneSpace, this->_memory[worstIndex]._addr, 1);
+        this->_memory[worstIndex]._space -= zoneSpace;
+        this->_memory[worstIndex]._addr += zoneSpace;
+        
+        // Insertion de la nouvelle zone mémoire
+        this->_memory.insert(this->_memory.begin() + worstIndex, *newZone);
         
         return true;
     }
@@ -67,38 +110,28 @@ bool RAM::allocBestFit(int zoneSpace) {
     return false;
 }
 
-int RAM::getIndexBestSpace(map <int, int> freeSpaces) {
-    int indexMax = -1;
+int RAM::getIndexWorstSpace(map <int, int> freeSpaces, int spaceNeeded) {
+    int worstIndex = -1;
     int spaceMax = 0;
     
     for (unsigned i = 0; i < freeSpaces.size(); i++) {
         if (freeSpaces[i] > spaceMax) {
-            indexMax = i;
+            worstIndex = i;
             spaceMax = freeSpaces[i];
         }
-        
     }
-    if (indexMax >= 0)
-        return indexMax;
-    else
-        return -1;
+    return worstIndex;
 }
 
-bool RAM::allocWorstFit(int zoneSpace) {
-    // Allocation de mémoire avec l'algorithme WORST-FIT
-    
-    
-    return false;
-}
 
+// Libération d'une zone mémoire
 bool RAM::dealloc(int zoneSpace, int zoneAddr) {
-    // Libération de mémoire
     
     return false;
 }
 
+// Affichage de la RAM dans la console à l'instant t
 void RAM::displayRAM() {
-    // Affichage de la RAM dans la console à l'instant t
     cout<< endl<< endl<< "* Affichage de la mémoire actuelle *"<< endl<< endl;
     cout<< "-----------------------"<< endl;
     

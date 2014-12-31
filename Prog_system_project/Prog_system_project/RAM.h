@@ -19,17 +19,18 @@ private:
     std::vector <MemoryZone> _memory;
     int freeMemory, allocMemory;
     
-    void displayZoneWith(int zoneSpace, int zoneAddr, bool blockState);
-    int getIndexBestSpace(std::map<int, int> freeSpaces);
+    void displayZoneWith(int, int, bool);
+    int getIndexBestSpace(std::map<int, int>, int);
+    int getIndexWorstSpace(std::map<int, int>, int);
     
 public:
     RAM();
-    RAM(int space);
+    RAM(int);
     void displayRAM();
-    bool allocFirstFit(int zoneSpace);
-    bool allocBestFit(int zoneSpace);
-    bool allocWorstFit(int zoneSpace);
-    bool dealloc(int zoneSpace, int zoneAddr);
+    bool allocFirstFit(int);
+    bool allocBestFit(int);
+    bool allocWorstFit(int);
+    bool dealloc(int, int);
 };
 
 #endif /* defined(__Prog_system_project__RAM__) */
