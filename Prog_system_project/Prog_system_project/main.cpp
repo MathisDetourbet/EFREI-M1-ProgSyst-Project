@@ -29,11 +29,12 @@ int displayMainMenu(string &choice) {
         cout<< "Que souhaitez-vous faire ?"<< endl<< endl;
         cout<< "1- Allocation d'une zone mémoire"<< endl;
         cout<< "2- Libération d'une zone mémoire"<< endl;
-        cout<< "3- Visualisation de l'occupation en mémoire"<< endl;
-        cout<< "4- Commencer à partir d'une mémoire préconfigurée"<< endl;
-        cout<< "5- Quitter le programme"<< endl;
+        cout<< "3- Défragmentation de la mémoire"<< endl;
+        cout<< "4- Visualisation de l'occupation en mémoire"<< endl;
+        cout<< "5- Commencer à partir d'une mémoire préconfigurée"<< endl;
+        cout<< "6- Quitter le programme"<< endl;
         cin>> choice;
-    } while (!is_number(choice) && (atoi(choice.c_str()) < 1 || atoi(choice.c_str()) > 4));
+    } while (!is_number(choice) && (atoi(choice.c_str()) < 1 || atoi(choice.c_str()) > 6));
     
     return atoi(choice.c_str());
 }
@@ -117,12 +118,18 @@ int main(int argc, const char * argv[]) {
                 else
                     cout<< "### Erreur de libération mémoire. L'adresse peut être erronée ou la taille trop élevée ###"<< endl;
                 break;
+            
+            case 3:
+                memory->defrag();
+                memory->displayRAM();
+                cout<< "La mémoire a été défragmenté avec succès"<< endl;
+                break;
                 
-            case 3: // Visualisation de la mémoire
+            case 4: // Visualisation de la mémoire
                 memory->displayRAM();
                 break;
                 
-            case 4: // Exemple de mémoire configurée
+            case 5: // Exemple de mémoire configurée
                 memory = new RAM(1000);
                 memory->allocFirstFit(250);
                 memory->allocFirstFit(400);
@@ -132,11 +139,11 @@ int main(int argc, const char * argv[]) {
                 memory->displayRAM();
                 break;
                 
-            case 5: // Quitter le programme
+            case 6: // Quitter le programme
                 return 0;
                 break;
         }
-    } while (atoi(choiceMainMenu.c_str()) != 5);
+    } while (atoi(choiceMainMenu.c_str()) != 6);
     
     
     return 0;

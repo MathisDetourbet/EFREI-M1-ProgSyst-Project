@@ -160,12 +160,32 @@ bool RAM::dealloc(int zoneSpace, int zoneAddr) {
 }
 
 // Défragmentation de la mémoire
-/*void RAM::defrag() {
+void RAM::defrag() {
+    int totalFreeSpace = 0;
+    int cumulativeSpace = 0;
+    vector <int> indexSpaceToDelete;
     
-    for (unsigned i = 0; ; <#increment#>) {
-        <#statements#>
+    // Enregistrement des index des zones libres
+    for (unsigned i = 0; i < _memory.size(); i++) {
+        if (_memory[i]._state == 0) {
+            totalFreeSpace += _memory[i]._space;
+            indexSpaceToDelete.push_back(i);
+        }
     }
-}*/
+    // Effacement des zones libres dans la mémoire
+    for (unsigned i = 0; i < indexSpaceToDelete.size(); i++) {
+        _memory.erase(_memory.begin() + indexSpaceToDelete[i] - i);
+    }
+    
+    // Réorganisation des zones non libres en leur affectant une nouvelle adresse
+    for (unsigned i = 0; i < _memory.size(); i++) {
+        _memory[i]._addr = cumulativeSpace;
+        cumulativeSpace += _memory[i]._space;
+    }
+    // Ajout d'une seule zone libre de la taille des autres cumulées
+    MemoryZone *totalFreeZone = new MemoryZone(totalFreeSpace, cumulativeSpace, 0);
+    _memory.push_back(*totalFreeZone);
+}
 
 // Affichage de la RAM dans la console à l'instant t
 void RAM::displayRAM() {
