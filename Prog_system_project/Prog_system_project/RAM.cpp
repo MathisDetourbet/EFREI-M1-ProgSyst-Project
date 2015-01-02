@@ -55,16 +55,22 @@ bool RAM::allocBestFit(int zoneSpace) {
     map <int, int> freeSpaces;
     
     for (unsigned i = 0; i < this->_memory.size(); i++) {
-        if (this->_memory[i]._state == 0 && this->_memory[i]._space >= zoneSpace)
-            freeSpaces[i] = this->_memory[i]._space;
+        if (_memory[i]._state == 0 && _memory[i]._space >= zoneSpace)
+            freeSpaces[i] = _memory[i]._space;
     }
     int bestIndex = this->getIndexBestSpace(freeSpaces, zoneSpace);
     if (bestIndex >= 0) {
-        MemoryZone *newZone = new MemoryZone(zoneSpace, this->_memory[bestIndex]._addr, 1);
-        this->_memory[bestIndex]._space -= zoneSpace;
-        this->_memory[bestIndex]._addr += zoneSpace;
+        // Si la taille demandée est égale à celle disponible
+        if (this->_memory[bestIndex]._space == zoneSpace) {
+            this->_memory[bestIndex]._state = 1;
+            return true;
+        }
+        
+        _memory[bestIndex]._space -= zoneSpace;
+        _memory[bestIndex]._addr += zoneSpace;
         
         // Insertion de la nouvelle zone mémoire
+        MemoryZone *newZone = new MemoryZone(zoneSpace, _memory[bestIndex]._addr, 1);
         this->_memory.insert(this->_memory.begin() + bestIndex, *newZone);
 
         return true;
@@ -74,7 +80,7 @@ bool RAM::allocBestFit(int zoneSpace) {
 }
 
 // Retourne l'index de la zone libre qui possède la capacité la plus proche de celle demandée
-int RAM::getIndexBestSpace(map<int, int> freeSpaces, int spaceNedded) {
+int RAM::getIndexBestSpace(map <int, int> freeSpaces, int spaceNedded) {
     int bestdX = INT16_MAX;
     int bestIndex = -1;
     
@@ -89,24 +95,28 @@ int RAM::getIndexBestSpace(map<int, int> freeSpaces, int spaceNedded) {
 
 // ** WORST-FIT ALGORITHM **
 bool RAM::allocWorstFit(int zoneSpace) {
-    map<int, int> freeSpaces;
+    map <int, int> freeSpaces;
     
-    for (unsigned i = 0; i < this->_memory.size(); i++) {
-        if (this->_memory[i]._state == 0 && this->_memory[i]._space >= zoneSpace)
-            freeSpaces[i] = this->_memory[i]._space;
+    for (unsigned i = 0; i < _memory.size(); i++) {
+        if (_memory[i]._state == 0 && _memory[i]._space >= zoneSpace)
+            freeSpaces[i] = _memory[i]._space;
     }
     int worstIndex = this->getIndexWorstSpace(freeSpaces, zoneSpace);
     if (worstIndex >= 0) {
-        MemoryZone *newZone = new MemoryZone(zoneSpace, this->_memory[worstIndex]._addr, 1);
-        this->_memory[worstIndex]._space -= zoneSpace;
-        this->_memory[worstIndex]._addr += zoneSpace;
+        // Si la taille demandée est égale à celle disponible
+        if (this->_memory[worstIndex]._space == zoneSpace) {
+            this->_memory[worstIndex]._state = 1;
+            return true;
+        }
+        MemoryZone *newZone = new MemoryZone(zoneSpace, _memory[worstIndex]._addr, 1);
+        _memory[worstIndex]._space -= zoneSpace;
+        _memory[worstIndex]._addr += zoneSpace;
         
         // Insertion de la nouvelle zone mémoire
-        this->_memory.insert(this->_memory.begin() + worstIndex, *newZone);
+        _memory.insert(_memory.begin() + worstIndex, *newZone);
         
         return true;
     }
-    
     return false;
 }
 
@@ -123,11 +133,29 @@ int RAM::getIndexWorstSpace(map <int, int> freeSpaces, int spaceNeeded) {
     return worstIndex;
 }
 
-
 // Libération d'une zone mémoire
 bool RAM::dealloc(int zoneSpace, int zoneAddr) {
+    int indexZoneAsk = -1;
     
-    return false;
+    for (unsigned i = 0; i < _memory.size(); i++) {
+        if (_memory[i]._addr == zoneAddr) {
+            indexZoneAsk = i;
+        }
+    }
+    if (indexZoneAsk == -1) {
+        return false;
+    }
+    if (_memory[indexZoneAsk]._space < zoneSpace) {
+        return false;
+    }
+    // Libération de la zone mémoire : création d'une zone libre
+    MemoryZone *newFreeZone = new MemoryZone(zoneSpace, zoneAddr, 0);
+    _memory[indexZoneAsk]._space -= zoneSpace;
+    _memory[indexZoneAsk]._addr += zoneSpace;
+    
+    // Insertion de la nouvelle zone mémoire
+    _memory.insert(_memory.begin() + indexZoneAsk, *newFreeZone);
+    return true;
 }
 
 // Affichage de la RAM dans la console à l'instant t
@@ -136,8 +164,8 @@ void RAM::displayRAM() {
     cout<< "-----------------------"<< endl;
     
     for (unsigned i = 0; i < this->_memory.size(); i++) {
-        cout<< "||-------------------||\t"<< this->_memory[i]._addr<< endl;
-        displayZoneWith(this->_memory[i]._space, this->_memory[i]._addr, this->_memory[i]._state);
+        cout<< "||-------------------||\t"<< _memory[i]._addr<< endl;
+        displayZoneWith(_memory[i]._space, _memory[i]._addr, _memory[i]._state);
     }
     cout<< "||-------------------||"<< endl;
     cout<< "-----------------------"<< endl;
