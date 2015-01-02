@@ -109,9 +109,11 @@ int main(int argc, const char * argv[]) {
                     cin>> space;
                     cout<< "A quelle adresse en mémoire ? (valeur >= 0)"<< endl;
                     cin>> addr;
-                } while (!is_number(space) && (atoi(space.c_str()) <= 0) && !is_number(addr));
-                if(memory->dealloc(atoi(space.c_str()), atoi(addr.c_str())))
+                } while (!is_number(space) && (atoi(space.c_str()) <= 0) && !is_number(addr) && (atoi(addr.c_str()) <= 0));
+                if(memory->dealloc(atoi(space.c_str()), atoi(addr.c_str()))) {
                     cout<< space<< " Mo viennent d'être libéré à l'adresse "<< addr<< endl;
+                    memory->displayRAM();
+                }
                 else
                     cout<< "### Erreur de libération mémoire. L'adresse peut être erronée ou la taille trop élevée ###"<< endl;
                 break;
@@ -126,7 +128,7 @@ int main(int argc, const char * argv[]) {
                 memory->allocFirstFit(400);
                 memory->allocFirstFit(100);
                 // il reste 250 Mo de libre
-                memory->dealloc(300, 650);
+                memory->dealloc(300, 250);
                 memory->displayRAM();
                 break;
                 

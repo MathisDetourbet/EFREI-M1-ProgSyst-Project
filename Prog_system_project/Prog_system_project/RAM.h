@@ -11,8 +11,8 @@
 
 #include <stdio.h>
 #include <vector>
-#include "MemoryZone.h"
 #include <map>
+#include "MemoryZone.h"
 
 class RAM {
 private:
@@ -31,6 +31,7 @@ public:
     bool allocBestFit(int);
     bool allocWorstFit(int);
     bool dealloc(int, int);
+    void defrag();
 };
 
 #endif /* defined(__Prog_system_project__RAM__) */

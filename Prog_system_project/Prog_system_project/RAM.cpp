@@ -8,6 +8,7 @@
 
 #include "RAM.h"
 #include <iostream>
+#include <math.h>
 
 using namespace std;
 
@@ -86,7 +87,7 @@ int RAM::getIndexBestSpace(map <int, int> freeSpaces, int spaceNedded) {
     
     for (unsigned i = 0; i < freeSpaces.size(); i++) {
         if ((freeSpaces[i] - spaceNedded) < bestdX) {
-            bestdX = freeSpaces[i] - spaceNedded;
+            bestdX = abs(freeSpaces[i] - spaceNedded);
             bestIndex = i;
         }
     }
@@ -104,8 +105,8 @@ bool RAM::allocWorstFit(int zoneSpace) {
     int worstIndex = this->getIndexWorstSpace(freeSpaces, zoneSpace);
     if (worstIndex >= 0) {
         // Si la taille demandée est égale à celle disponible
-        if (this->_memory[worstIndex]._space == zoneSpace) {
-            this->_memory[worstIndex]._state = 1;
+        if (_memory[worstIndex]._space == zoneSpace) {
+            _memory[worstIndex]._state = 1;
             return true;
         }
         MemoryZone *newZone = new MemoryZone(zoneSpace, _memory[worstIndex]._addr, 1);
@@ -157,6 +158,14 @@ bool RAM::dealloc(int zoneSpace, int zoneAddr) {
     _memory.insert(_memory.begin() + indexZoneAsk, *newFreeZone);
     return true;
 }
+
+// Défragmentation de la mémoire
+/*void RAM::defrag() {
+    
+    for (unsigned i = 0; ; <#increment#>) {
+        <#statements#>
+    }
+}*/
 
 // Affichage de la RAM dans la console à l'instant t
 void RAM::displayRAM() {
