@@ -122,7 +122,7 @@ int main(int argc, const char * argv[]) {
             case 3:
                 memory->defrag();
                 memory->displayRAM();
-                cout<< "La mémoire a été défragmenté avec succès"<< endl;
+                cout<< "La mémoire a été défragmenté avec succès"<< endl<< endl;
                 break;
                 
             case 4: // Visualisation de la mémoire

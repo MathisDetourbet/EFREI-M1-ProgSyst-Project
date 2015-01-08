@@ -70,7 +70,7 @@ bool RAM::allocBestFit(int zoneSpace) {
         _memory[bestIndex]._space -= zoneSpace;
         _memory[bestIndex]._addr += zoneSpace;
         
-        // Insertion de la nouvelle zone mémoire
+        // Création + insertion de la nouvelle zone mémoire
         MemoryZone *newZone = new MemoryZone(zoneSpace, _memory[bestIndex]._addr, 1);
         this->_memory.insert(this->_memory.begin() + bestIndex, *newZone);
 
@@ -189,7 +189,7 @@ void RAM::defrag() {
 
 // Affichage de la RAM dans la console à l'instant t
 void RAM::displayRAM() {
-    cout<< endl<< endl<< "* Affichage de la mémoire actuelle *"<< endl<< endl;
+    cout<< endl<< endl<< "* Affichage de la mémoire actuelle *"<< endl;
     cout<< "-----------------------"<< endl;
     
     for (unsigned i = 0; i < this->_memory.size(); i++) {
