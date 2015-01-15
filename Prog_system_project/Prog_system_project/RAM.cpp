@@ -13,7 +13,7 @@
 using namespace std;
 
 RAM::RAM() {
-    // Constructeur par défaut (10Go par défaut)
+    // Constructeur par défaut (1Go par défaut)
     this->_memory.push_back(* new MemoryZone(1000, 0, 0));
     this->freeMemory = 1000;
     this->allocMemory = 0;
@@ -28,22 +28,22 @@ RAM::RAM(int space) {
 
 // ** FIRST-FIT ALGORITHM **
 bool RAM::allocFirstFit(int zoneSpace) {
-    for (unsigned i = 0; i < this->_memory.size(); i++) {
+    for (unsigned i = 0; i < _memory.size(); i++) {
         
-        if ((this->_memory[i]._space >= zoneSpace) && (this->_memory[i]._state == 0)) {
+        if ((_memory[i]._space >= zoneSpace) && (_memory[i]._state == 0)) {
             
             // Si la taille demandée est égale à celle disponible
-            if (this->_memory[i]._space == zoneSpace) {
-                this->_memory[i]._state = 1;
+            if (_memory[i]._space == zoneSpace) {
+                _memory[i]._state = 1;
                 return true;
             }
             // Sinon création d'une nouvelle zone mémoire
-            MemoryZone *newZone = new MemoryZone(zoneSpace, this->_memory[i]._addr, 1);
-            this->_memory[i]._space -= zoneSpace;
-            this->_memory[i]._addr += zoneSpace;
+            MemoryZone *newZone = new MemoryZone(zoneSpace, _memory[i]._addr, 1);
+            _memory[i]._space -= zoneSpace;
+            _memory[i]._addr += zoneSpace;
             
             // Insertion de la nouvelle zone mémoire
-            this->_memory.insert(this->_memory.begin() + i, *newZone);
+            this->_memory.insert(_memory.begin() + i, *newZone);
             
             return true;
         }
@@ -55,15 +55,15 @@ bool RAM::allocFirstFit(int zoneSpace) {
 bool RAM::allocBestFit(int zoneSpace) {
     map <int, int> freeSpaces;
     
-    for (unsigned i = 0; i < this->_memory.size(); i++) {
+    for (unsigned i = 0; i < _memory.size(); i++) {
         if (_memory[i]._state == 0 && _memory[i]._space >= zoneSpace)
             freeSpaces[i] = _memory[i]._space;
     }
     int bestIndex = this->getIndexBestSpace(freeSpaces, zoneSpace);
     if (bestIndex >= 0) {
         // Si la taille demandée est égale à celle disponible
-        if (this->_memory[bestIndex]._space == zoneSpace) {
-            this->_memory[bestIndex]._state = 1;
+        if (_memory[bestIndex]._space == zoneSpace) {
+            _memory[bestIndex]._state = 1;
             return true;
         }
         
@@ -72,7 +72,7 @@ bool RAM::allocBestFit(int zoneSpace) {
         
         // Création + insertion de la nouvelle zone mémoire
         MemoryZone *newZone = new MemoryZone(zoneSpace, _memory[bestIndex]._addr, 1);
-        this->_memory.insert(this->_memory.begin() + bestIndex, *newZone);
+        _memory.insert(_memory.begin() + bestIndex, *newZone);
 
         return true;
     }
